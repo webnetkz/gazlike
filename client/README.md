@@ -1,4 +1,4 @@
-# gazlike
+# client
 
 ## Project setup
 ```
