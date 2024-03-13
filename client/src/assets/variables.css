@@ -1,0 +1,22 @@
+:root {
+
+    --theme-color: #f9a621;
+    --invert-theme: rgb(40, 40, 40);
+    --white: white;
+    --black: rgb(20, 20, 20);
+    --gray: gray;
+    --gray-light: rgb(241, 241, 241);
+    --red: red;
+    --green: green;
+    --bg: #1D1E20;
+    --bg-light: #2E2E33;
+
+    --header-height: 43px;
+
+    --radius: 7px;
+
+    --padding: 3px 9px;
+
+    
+    --z-header: 9;
+}

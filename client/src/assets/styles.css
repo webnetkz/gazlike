@@ -1,0 +1,101 @@
+@import url(https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap);
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+    scroll-behavior: smooth;
+    transition-duration: 200ms;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    width: 100vw;
+    overflow-x: hidden;
+    background: var(--bg);
+    color: var(--theme-color);
+    animation: showBody 0.2s linear;
+}
+
+@keyframes showBody {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+*[small] {
+  transform: scale(0.8);
+}
+
+*[large] {
+  transform: scale(1.2);
+}
+
+*[vertical] {
+  transform: rotate(90deg);
+}
+
+
+input,
+button,
+textarea {
+    font-size: 1.5rem;
+    outline: none;
+    border: 1px solid var(--theme-color);
+    border-radius: var(--radius);
+    padding: var(--padding);
+}
+
+::placeholder {
+  color: var(--theme-color);
+  font-size: 1rem;
+  transition-duration: 0.3s;
+}
+
+button {
+  color: var(--white);
+  background-color: var(--theme-color);
+}
+
+button:hover {
+  cursor: pointer;
+  color: var(--theme-color);
+  background-color: var(--white);
+}
+
+#intro {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#intro h1 {
+  font-size: 4rem;
+  border-bottom: 2px solid var(--theme-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+#intro p {
+  font-size: 1.5rem;
+}
+
+#search:focus::placeholder,
+#comment:focus::placeholder {
+    padding-left: 70%;
+    opacity: 0;
+}
