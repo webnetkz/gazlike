@@ -21,36 +21,43 @@ export const useStore = defineStore({
         this.searchInput = event.target.value;
         
         if (this.searchInput.trim() !== '') {
-          this.comments.push({'id': 3, 'message': this.searchInput, 'date': '21.01.2009 12:12'})
-          //this.requestToServer('./api', {'table': this.searchInput})
-              // .then(dataOfServer => {      
- 
-              //   if (dataOfServer.data.comments) {
-              //     this.comments = dataOfServer.data.comments;
-              //   }
-  
-              // });
+          this.comments.push({'id': 3, 'message': this.searchInput, 'date': '21.01.2009 12:12'});
+
+          fetch('http://127.0.0.1:8081', {
+            method: 'POST',
+            body: JSON.stringify({"action": "table", "table": this.searchInput})
+          }).then(response => {
+            return response.json();
+          }).then(data => {
+            console.log(data);
+          }).catch(error => {
+            console.error('Произошла ошибка:', error);
+          });
+
       } else {
           console.log('Empty input');
       }
     },
 
-    async requestToServer(url, postData) {
+    async sendRequestToServer(data) {
       try {
-          const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(postData)
-          });
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          return data;
+        const response = await fetch('http://127.0.0.1:8081/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const responseData = await response.json();
+        return responseData;
       } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
+        console.error('There was a problem with the fetch operation:', error);
+        throw error;
       }
     },
 

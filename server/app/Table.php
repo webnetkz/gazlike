@@ -31,6 +31,7 @@ class Table {
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             comment VARCHAR(700) NOT NULL,
             rate TINYINT UNSIGNED NOT NULL DEFAULT 0,
+            ip VARCHAR(15) NOT NULL,
             create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )");

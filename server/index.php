@@ -1,5 +1,9 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: *');
+header('Access-Control-Allow-Headers: *');
+
 header('Content-Type: application/json');
 
 use App\Table;
@@ -9,17 +13,16 @@ require_once './settings.php';
 require_once './app/Table.php';
 require_once './app/Comments.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //echo json_encode(['success' => true, 'data' => 123]);    exit();
     $data = json_decode(file_get_contents('php://input'), true);
-    $data['table'] = $_GET['table']; 
+
+    $uri = $secure->fullFilterData($data['table']);
+    $table = new Table($uri);
+    $comments = new Comments($uri);
 
     if ($data !== null) {
-        if (isset($data['table']) && !empty($data['table'])) {
-
-            $uri = $secure->fullFilterData($data['table']);
-            $table = new Table($uri);
-            $comments = new Comments($uri);
-            
+        if (isset($data['action']) && $data['action'] === 'table') {            
             $checkUri = $table->checkTableName();
     
             if ($checkUri) {
@@ -34,17 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $data = ['msg' => 'Created table'];
         }
 
-        if (isset($data['comment']) && !empty($data['comment'])) {
+        if (isset($data['action']) && $data['action'] === 'new_comment') {
 
-            $table = $secure->fullFilterData($data['table_name']);
-            $table = $table.'_comments';
+            $uri = $secure->fullFilterData($data['table']);
+            $uri = $uri.'_comments';
 
             $comment = $secure->filterData($data['comment']);
-    
-            $db->squery(
-                "INSERT IGNORE INTO `$table`(comment) VALUES (:comment)",
-                ['comment' => $comment]
-            );
+            $comments->createNewComment($comment, $_SERVER['REMOTE_ADDR']);
 
             $data = ['msg' => 'Created comment'];
         }

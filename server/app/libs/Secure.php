@@ -10,7 +10,7 @@ class Secure {
   }
 
 
-  public function fullFilterData($data) {
+  public function fullFilterData($data = '') {
     $data = strtolower(trim($data));
     $data = preg_replace('/[^a-zA-Z0-9\-_]/', '', $data);
     $data = htmlspecialchars($data);

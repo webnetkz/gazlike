@@ -10,22 +10,25 @@ require_once 'app/libs/Db.php';
 class Comments {
 
     protected $db;
-    protected $table;
+    protected $uri;
+    private $uri_comments;
 
 
-    public function __construct($table) {
+    public function __construct($uri) {
         $this->db = new Db();
-        $this->table = $table;
+        $this->uri = $uri;
+        $this->uri_comments = $this->uri.'_comments';
     }
 
     public function getAllComments() {
-        $commentsTableName = $this->table.'_comments';
-        return $this->db->selectAll("SELECT * FROM $commentsTableName ORDER BY id DESC");
+        return $this->db->selectAll("SELECT * FROM $this->uri_comments ORDER BY id DESC");
     }
 
-    public function createNewComment() {
-        $commentsTableName = $this->table.'_comments';
-        return $this->db->selectAll("SELECT * FROM $commentsTableName ORDER BY id DESC");
+    public function createNewComment($comment, ) {
+        $this->db->squery(
+            "INSERT IGNORE INTO `$this->uri_comments`(comment, ip) VALUES (:comment, :ip)",
+            ['comment' => $comment, 'ip' => $_SERVER['REMOTE_ADDR']]
+        );
     }
 
     

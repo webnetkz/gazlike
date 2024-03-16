@@ -31,15 +31,12 @@ class Db {
     }
 
 
-    public function squery($sql, $params=[]) {
+    public function squery($sql, $params = []) {
         $stmt = $this->pdo->prepare($sql);
-        
-        foreach ($params as $k => $v) {
-            $stmt->bindParam(':'.$k, $v);
-        }
     
         try {
-            return $stmt->execute();
+            $stmt->execute($params);
+            return $stmt->rowCount();
         } catch (PDOException $e) {
             echo 'Ошибка выполнения запроса: ' . $e->getMessage();
             exit();
@@ -55,6 +52,9 @@ class Db {
 
     public function selectAll($sql) {
         $result = $this->pdo->query($sql);
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        if ($result) {
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return 'Error SelectAll';
     }
 }
