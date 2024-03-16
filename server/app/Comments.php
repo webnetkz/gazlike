@@ -23,5 +23,10 @@ class Comments {
         return $this->db->selectAll("SELECT * FROM $commentsTableName ORDER BY id DESC");
     }
 
+    public function createNewComment() {
+        $commentsTableName = $this->table.'_comments';
+        return $this->db->selectAll("SELECT * FROM $commentsTableName ORDER BY id DESC");
+    }
+
     
 }

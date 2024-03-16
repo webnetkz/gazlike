@@ -11,41 +11,28 @@ class Table {
 
     protected $db;
     protected $uri;
+    private $uri_comments;
 
 
     public function __construct($uri) {
         $this->db = new Db();
         $this->uri = $uri;
+        $this->uri_comments = $this->uri.'_comments';
     }
 
 
     public function getAllRate() {
-        return $this->db->selectAll("SELECT * FROM $this->uri");
-    }
-
-
-    public function createTableOfStatictics() {
-        return $this->db->query("CREATE TABLE IF NOT EXISTS `$this->uri` (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            views INT(12) UNSIGNED NOT NULL DEFAULT 0,
-            create_ip VARCHAR(45) NOT NULL,
-            likes TINYINT UNSIGNED NOT NULL DEFAULT 0,
-            dislikes TINYINT UNSIGNED NOT NULL DEFAULT 0,
-            comments_count TINYINT UNSIGNED NOT NULL DEFAULT 0,
-            create_date DATE NOT NULL DEFAULT CURRENT_DATE(),
-            create_time TIME NOT NULL DEFAULT CURRENT_TIME()
-        )");
+        return $this->db->selectAll("SELECT * FROM $this->uri_comments");
     }
 
 
     public function createTableOfComments() {
-        $commentsTableName = $this->uri.'_comments';
-        $this->db->query("CREATE TABLE IF NOT EXISTS `$commentsTableName` (
+        $this->db->query("CREATE TABLE IF NOT EXISTS `$this->uri_comments` (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             comment VARCHAR(700) NOT NULL,
             rate TINYINT UNSIGNED NOT NULL DEFAULT 0,
-            create_date DATE NOT NULL DEFAULT CURRENT_DATE(),
-            create_time TIME NOT NULL DEFAULT CURRENT_TIME()
+            create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )");
     }
 
@@ -54,14 +41,6 @@ class Table {
         $this->db->squery(
             "INSERT IGNORE INTO uris(uri) VALUES (:uri)",
             ['uri' => $this->uri]
-        );
-    }
-
-
-    public function insertStaticticsOfTable() {
-        $this->db->squery(
-            "INSERT INTO `$this->uri`(views, create_ip) VALUES (1, :ip)",
-            ['ip' => $_SERVER['REMOTE_ADDR']]
         );
     }
 
