@@ -21,7 +21,8 @@ export const useStore = defineStore({
         this.searchInput = event.target.value;
         
         if (this.searchInput.trim() !== '') {
-          this.comments.push({'id': 3, 'message': this.searchInput, 'date': '21.01.2009 12:12'})
+          console.log(this.requestToServer('http://127.0.0.1:8088/x/index.php', {'action': 'test'}));
+          //this.comments.push({'id': 3, 'message': this.searchInput, 'date': '21.01.2009 12:12'})
           //this.requestToServer('./api', {'table': this.searchInput})
               // .then(dataOfServer => {      
  
