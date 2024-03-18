@@ -21,7 +21,7 @@ class Comments {
     }
 
     public function getAllComments() {
-        return $this->db->selectAll("SELECT * FROM $this->uri_comments ORDER BY id DESC");
+        return $this->db->selectAll("SELECT id, comment, rate, create_date FROM $this->uri_comments ORDER BY id DESC");
     }
 
     public function createNewComment($comment, ) {

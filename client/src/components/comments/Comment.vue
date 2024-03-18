@@ -1,7 +1,7 @@
 <template>
-  <div class="comment-container" v-for="comment in comments" :key="comment.id" :class="{'comment-dislike': !comment.class && comment.class !== undefined, 'comment-like': comment.class}">
-    <p>{{ comment.message }}</p>
-    <span class="comment-date">{{ comment.date }}</span>
+  <div class="comment-container" v-for="comment in comments" :key="comment.id" :class="{'comment-dislike': !comment.rate, 'comment-like': comment.rate == 1, '': comment.rate == 2}">
+    <p>{{ comment.comment }}</p>
+    <span class="comment-date">{{ comment.create_date }}</span>
   </div>
 </template>
   
@@ -16,7 +16,7 @@
         const comments = computed(() => store.comments);
 
         return {
-          comments
+          comments,
         };
       },
     }

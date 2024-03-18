@@ -1,6 +1,6 @@
 <template>
-    <div id="createCommentContainer">
-        <textarea id="comment" placeholder="Your comment"></textarea>
+    <div id="createCommentContainer" v-if="!isCreate && (searchInput != 'Empty')">
+        <textarea id="comment" placeholder="Your comment" @change="changeMessageInput"></textarea>
         <div class="likes-container">
             <span class="like-btn"></span>
             <span class="dislike-btn"></span>
@@ -9,20 +9,37 @@
 </template>
   
 <script>  
+    import { useStore } from '@/store.js';
+    import { computed } from 'vue';
+
     export default {
       name: 'CreateComment',
       setup() {
-        return {
-  
-        };
-      },
+            const store = useStore();
+
+            const newComment = computed(() => store.newComment);
+            const isCreate = computed(() => store.isCreate);
+            const searchInput = computed(() => store.searchInput);
+
+
+            const changeMessageInput = (event) => {
+                store.changeMessageInput(event);
+            };
+    
+            return {
+                newComment,
+                isCreate,
+                searchInput,
+                changeMessageInput,
+            };
+        },
     }
 </script>
   
 <style scoped>
   #createCommentContainer {
       position: fixed;
-      bottom: -20vh;
+      bottom: 0vh;
       right: 0;
       padding: 20px 5px;
       width: 100vw;
@@ -30,8 +47,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: var(--bg);
-      border-top: 3px solid var(--theme-color);
+      backdrop-filter: blur(12px);
   }
 
   #createCommentContainer textarea {
@@ -39,6 +55,7 @@
       height: 100%;
       border: 2px solid var(--theme-color);
       background-color: var(--bg);
+      color: var(--white);
   }
   .likes-container {
       display: flex;

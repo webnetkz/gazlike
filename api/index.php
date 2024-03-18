@@ -14,7 +14,6 @@ require_once './app/Table.php';
 require_once './app/Comments.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //echo json_encode(['success' => true, 'data' => 123]);    exit();
     $data = json_decode(file_get_contents('php://input'), true);
 
     $uri = $secure->fullFilterData($data['table']);
@@ -22,22 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comments = new Comments($uri);
 
     if ($data !== null) {
-        if (isset($data['action']) && $data['action'] === 'table') {            
+
+        if (isset($data['action']) && $data['action'] === 'search_table') {            
             $checkUri = $table->checkTableName();
     
             if ($checkUri) {
                 $data = ['table' => ['name' => $uri, 'data' => $table->getAllRate()], 'comments' => $comments->getAllComments()];
-                echo json_encode(['success' => true, 'data' => $data]);
-                return;
+                $data = ['success' => true, 'data' => $data];
             } 
-            
-            $table->insertNewTableName();
-            $table->createTableOfComments();
-            
-            $data = ['msg' => 'Created table'];
         }
 
-        if (isset($data['action']) && $data['action'] === 'new_comment') {
+
+        if (isset($data['action']) && $data['action'] === 'create_table') {
+
+            $table->insertNewTableName();
+            $table->createTableOfComments();
+            $data = ['success' => true, 'msg' => 'Created table'];
+        }
+
+
+        if (isset($data['action']) && $data['action'] === 'create_comment') {
 
             $uri = $secure->fullFilterData($data['table']);
             $uri = $uri.'_comments';

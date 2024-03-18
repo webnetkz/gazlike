@@ -1,12 +1,12 @@
 <template>
-  <Header msg="Welcome to Your Vue.js App"/>
+  <HeaderComponent/>
   <Intro/>
   <Comments/>
   <CreateComment/>
 </template>
 
 <script>
-  import Header from '@/components/header/Header.vue';
+  import HeaderComponent from '@/components/header/Header.vue';
   import Intro from '@/components/Intro.vue';
   import Comments from '@/components/comments/Comments.vue';
   import CreateComment from '@/components/comments/CreateComment.vue';
@@ -15,7 +15,7 @@
   export default {
     name: 'App',
     components: {
-      Header,
+      HeaderComponent,
       Intro,
       Comments,
       CreateComment,

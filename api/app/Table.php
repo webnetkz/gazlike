@@ -30,7 +30,7 @@ class Table {
         $this->db->query("CREATE TABLE IF NOT EXISTS `$this->uri_comments` (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             comment VARCHAR(700) NOT NULL,
-            rate TINYINT UNSIGNED NOT NULL DEFAULT 0,
+            rate TINYINT UNSIGNED NOT NULL DEFAULT 2,
             ip VARCHAR(15) NOT NULL,
             create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
