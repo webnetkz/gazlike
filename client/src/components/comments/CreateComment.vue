@@ -75,9 +75,11 @@
   }
   .like-btn:hover {
       cursor: pointer;
+      transform: scale(1.2);
   }
   .dislike-btn:hover {
       cursor: pointer;
+      transform: scale(1.2) rotate(180deg);
   }
   .dislike-btn {
       transform: rotate(180deg);
