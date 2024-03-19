@@ -1,5 +1,5 @@
 <?php
-    require_once 'server/db.php'
+    require_once 'C:\Program Files\OSPanel\domains\gazlike\server\settings.php'
 
 
 ?>
