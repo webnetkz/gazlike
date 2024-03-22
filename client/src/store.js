@@ -12,6 +12,7 @@ export const useStore = defineStore({
     isCreate: ref(0),
     comments: ref([]),
     newComment: '',
+    url: 'http://localhost:8081',
   }),
 
   actions: {
@@ -19,7 +20,7 @@ export const useStore = defineStore({
         this.searchInput = event.target.value;
         
         if (this.searchInput.trim() !== '') {
-          fetch('http://127.0.0.1:8081/', {
+          fetch(this.url, {
             method: 'POST',
             body: JSON.stringify({"action": "search_table", "table": this.searchInput})
           }).then(response => {
@@ -31,9 +32,13 @@ export const useStore = defineStore({
             } else {
               this.isCreate = false;
             }
+            
             this.comments = data.data.data.comments;
+            this.commentsCount = data.data.data.table.data_of_table[0].comments;
+            this.likes = data.data.data.table.data_of_table[0].likes;
+            this.dislikes = data.data.data.table.data_of_table[0].dislikes;
           }).catch(error => {
-            console.error('Произошла ошибка:', error);
+            console.log('Произошла ошибка:', error);
           });
 
       } else {
@@ -41,32 +46,40 @@ export const useStore = defineStore({
       }
     },
 
-    changeMessageInput(event) {
-      this.newComment = event.target.value;
-      fetch('http://127.0.0.1:8081/', {
+    createComment(event) {
+      let rate = 0;
+      this.commentsCount += 1;
+      
+      if (event.target.getAttribute('class') == 'like-btn') {
+        rate = 1;
+        this.likes += 1;
+      } else {
+        this.dislikes += 1;
+      }
+
+      this.newComment = event.target.parentNode.previousSibling.value;
+      event.target.parentNode.previousSibling.value = '';
+
+      fetch(this.url, {
             method: 'POST',
-            body: JSON.stringify({"action": "create_comment", "table": this.searchInput, "comment": this.newComment})
+            body: JSON.stringify({"action": "create_comment", "table": this.searchInput, "comment": this.newComment, "rate": rate})
           }).then(response => {
+            this.comments.unshift({'comment': this.newComment, rate: rate, 'create_date': this.formattedDateTime()})
             return response.json();
-          }).then(data => {
-            console.log(data);
-            this.comments.unshift({'comment': this.newComment, rate: 2, 'create_date': this.formattedDateTime()})
           }).catch(error => {
-            console.error('Произошла ошибка:', error);
+            console.log('Произошла ошибка:', error);
           });
     },
 
     createTable() {
       this.isCreate = false;
-      fetch('http://127.0.0.1:8081/', {
+      fetch(this.url, {
             method: 'POST',
             body: JSON.stringify({"action": "create_table", "table": this.searchInput})
           }).then(response => {
             return response.json();
-          }).then(data => {
-            console.log(data);
           }).catch(error => {
-            console.error('Произошла ошибка:', error);
+            console.log('Произошла ошибка:', error);
           });
     },
     

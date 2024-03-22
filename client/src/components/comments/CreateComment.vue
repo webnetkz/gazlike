@@ -1,9 +1,9 @@
 <template>
     <div id="createCommentContainer" v-if="!isCreate && (searchInput != 'Empty')">
-        <textarea id="comment" placeholder="Your comment" @change="changeMessageInput"></textarea>
+        <textarea id="comment" placeholder="Your comment"></textarea>
         <div class="likes-container">
-            <span class="like-btn"></span>
-            <span class="dislike-btn"></span>
+            <span class="like-btn" @click="createComment"></span>
+            <span class="dislike-btn" @click="createComment"></span>
         </div>
     </div>
 </template>
@@ -22,15 +22,15 @@
             const searchInput = computed(() => store.searchInput);
 
 
-            const changeMessageInput = (event) => {
-                store.changeMessageInput(event);
+            const createComment = (event) => {
+                store.createComment(event);
             };
     
             return {
                 newComment,
                 isCreate,
                 searchInput,
-                changeMessageInput,
+                createComment,
             };
         },
     }
