@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-container" v-for="comment in comments" :key="comment.id" :class="{'comment-dislike': !comment.rate, 'comment-like': comment.rate == 1, '': comment.rate == 2}">
+  <div class="comment-container" v-for="comment in comments" :key="comment.id" :class="{'comment-dislike': !comment.rate, 'comment-like': comment.rate == 1}">
     <p>{{ comment.comment }}</p>
     <span class="comment-date">{{ comment.create_date }}</span>
   </div>

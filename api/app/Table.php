@@ -22,7 +22,7 @@ class Table {
 
 
     public function getAllRate() {
-        return $this->db->selectAll("SELECT * FROM $this->uri_comments");
+        return $this->db->selectAll("SELECT * FROM `uris` WHERE `uri`='$this->uri'");
     }
 
 
@@ -30,8 +30,8 @@ class Table {
         $this->db->query("CREATE TABLE IF NOT EXISTS `$this->uri_comments` (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             comment VARCHAR(700) NOT NULL,
-            rate TINYINT UNSIGNED NOT NULL DEFAULT 2,
-            ip VARCHAR(15) NOT NULL,
+            rate BOOLEAN DEFAULT 0,
+            ip VARCHAR(25) NOT NULL,
             create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )");
@@ -40,8 +40,8 @@ class Table {
 
     public function insertNewTableName() {
         $this->db->squery(
-            "INSERT IGNORE INTO uris(uri) VALUES (:uri)",
-            ['uri' => $this->uri]
+            "INSERT IGNORE INTO uris(uri, ip, comments, likes, dislikes) VALUES (:uri, :ip, 0, 0, 0)",
+            ['uri' => $this->uri, 'ip' => $_SERVER['REMOTE_ADDR']]
         );
     }
 

@@ -20,35 +20,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $table = new Table($uri);
     $comments = new Comments($uri);
 
-    if ($data !== null) {
+    if ($data !== null && isset($data['action'])) {
 
-        if (isset($data['action']) && $data['action'] === 'search_table') {            
-            $checkUri = $table->checkTableName();
+        switch($data['action']) {
+            case 'search_table':
+            
+                $checkUri = $table->checkTableName();
+        
+                if ($checkUri) {
+                    $data = ['table' => ['name' => $uri, 'data_of_table' => $table->getAllRate()], 'comments' => $comments->getAllComments()];
+                    $data = ['success' => true, 'data' => $data];
+                } 
+            
+            break;
+
+            case 'create_table':
+                
+                $table->insertNewTableName();
+                $table->createTableOfComments();
+                $data = ['success' => true, 'msg' => 'Created table'];
     
-            if ($checkUri) {
-                $data = ['table' => ['name' => $uri, 'data' => $table->getAllRate()], 'comments' => $comments->getAllComments()];
-                $data = ['success' => true, 'data' => $data];
-            } 
-        }
+            break;
 
+            case 'create_comment':
 
-        if (isset($data['action']) && $data['action'] === 'create_table') {
+                $uri = $secure->fullFilterData($data['table']);
+                $uri = $uri.'_comments';
+        
+                $comment = $secure->filterData($data['comment']);
+                $comments->createNewComment($comment, $data['rate']);
+        
+                $data = ['msg' => 'Created comment'];
 
-            $table->insertNewTableName();
-            $table->createTableOfComments();
-            $data = ['success' => true, 'msg' => 'Created table'];
-        }
-
-
-        if (isset($data['action']) && $data['action'] === 'create_comment') {
-
-            $uri = $secure->fullFilterData($data['table']);
-            $uri = $uri.'_comments';
-
-            $comment = $secure->filterData($data['comment']);
-            $comments->createNewComment($comment, $_SERVER['REMOTE_ADDR']);
-
-            $data = ['msg' => 'Created comment'];
+            break;
         }
         
         echo json_encode(['success' => true, 'data' => $data]);
