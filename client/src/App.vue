@@ -26,6 +26,7 @@
 <style>
 @import url(assets/variables.css);
 @import url(assets/styles.css);
+@import url(assets/scroll.css);
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

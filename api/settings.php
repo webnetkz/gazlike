@@ -1,7 +1,5 @@
 <?php
 
-#header('Content-Type: application/json');
-
 use App\Libs\Secure;
 
 require_once './app/libs/Secure.php';
