@@ -40,10 +40,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 300px;
     }
     input {
         background: var(--bg);
         color: var(--white);
+        width: 100%;
     }
 
     #search:focus {

@@ -1,0 +1,29 @@
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--theme-color);
+    border-radius: 3em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--invert-theme);
+    cursor: pointer;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-button:horizontal:start:decrement {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-button:horizontal:end:increment {
+    opacity: 0;
+}
