@@ -9,7 +9,7 @@ export const useStore = defineStore({
     commentsCount: ref(0),
     likes: ref(0),
     dislikes: ref(0),
-    isCreate: ref(0),
+    isCreate: ref(false),
     comments: ref([]),
     newComment: '',
     url: 'http://localhost:8081',
@@ -17,9 +17,9 @@ export const useStore = defineStore({
 
   actions: {
     changeSearchInput(event) {
-        this.searchInput = event.target.value;
+        this.searchInput = event.target.value.trim();
         
-        if (this.searchInput.trim() !== '') {
+        if (this.searchInput !== '') {
           fetch(this.url, {
             method: 'POST',
             body: JSON.stringify({"action": "search_table", "table": this.searchInput})

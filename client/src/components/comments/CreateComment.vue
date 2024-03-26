@@ -1,5 +1,5 @@
 <template>
-    <div id="createCommentContainer" v-if="!isCreate && (searchInput != 'Empty')">
+    <div id="createCommentContainer" v-if="!isCreate && (searchInput != 'Empty' && (searchInput.length > 1))">
         <textarea id="comment" placeholder="Your comment"></textarea>
         <div class="likes-container">
             <span class="like-btn" @click="createComment"></span>

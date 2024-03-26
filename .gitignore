@@ -1,2 +1,3 @@
 .DS_Store
-server/settings.php
+api/settings.php
+client/dist/

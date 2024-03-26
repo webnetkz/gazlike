@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $table = new Table($uri);
     $comments = new Comments($uri);
 
-    if ($data !== null && isset($data['action'])) {
+    if ($data !== null && isset($data['action']) && $uri !== '') {
 
         switch($data['action']) {
             case 'search_table':

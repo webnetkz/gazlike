@@ -16,9 +16,9 @@
 
             const searchInput = computed(() => store.searchInput);
             const isCreate = computed(() => store.isCreate);
-
+            
             const changeSearchInput = (event) => {
-                if (event.target.value.length <= 25) {
+                if (event.target.value.trim() !== '' && event.target.value.length > 1) {
                     store.changeSearchInput(event);
                 } else {
                     store.isCreate = false;
